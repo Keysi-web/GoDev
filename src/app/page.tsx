@@ -131,7 +131,8 @@ export default function GoDevLanding() {
     { label: 'Blogs', href: '#blogs' },
     { label: 'Testimonials', href: '#testimonials' },
     { label: 'Contact', href: '#contact' },
-    { label: 'Careers', href: '/careers' }
+    { label: 'Careers', href: '/careers' },
+    { label: 'GoBots', href: '/gobots'}
   ]
 
   const validateForm = () => {
