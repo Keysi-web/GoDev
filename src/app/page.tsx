@@ -55,6 +55,7 @@ export default function GoDevLanding() {
     { text: "Hi! How can we help you today?", sender: "agent" }
   ])
   const [inputValue, setInputValue] = useState("")
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const handleSendMessage = () => {
     if (inputValue.trim()) {
@@ -115,10 +116,10 @@ export default function GoDevLanding() {
       if (step >= steps) {
         clearInterval(timer)
         setMetrics({
-          projects: 500,
-          clients: 200,
+          projects: 100,
+          clients: 10,
           satisfaction: 98,
-          countries: 25
+          countries: 10
         })
       }
     }, interval)
@@ -333,6 +334,26 @@ export default function GoDevLanding() {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-20px); }
         }
+
+        @keyframes slideInRight {
+          from {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
         
         .glow-card {
           animation: glow 3s ease-in-out infinite;
@@ -369,6 +390,78 @@ export default function GoDevLanding() {
         
         .float-3d {
           animation: float 6s ease-in-out infinite;
+        }
+
+        .menu-item {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .menu-item::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 0;
+          height: 2px;
+          background: currentColor;
+          transition: width 0.3s ease;
+        }
+
+        .menu-item:hover::before {
+          width: 20px;
+        }
+
+        .menu-item:hover {
+          padding-left: 28px;
+          letter-spacing: 0.5px;
+        }
+
+        .menu-item:active {
+          transform: scale(0.98);
+        }
+
+        .cta-button {
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .cta-button::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 0;
+          height: 0;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.3);
+          transform: translate(-50%, -50%);
+          transition: width 0.6s, height 0.6s;
+        }
+
+        .cta-button:hover::after {
+          width: 300px;
+          height: 300px;
+        }
+
+        .cta-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button:active {
+          transform: translateY(0);
+        }
+
+        .slide-in {
+          animation: slideInRight 0.3s ease-out forwards;
+        }
+
+        .fade-in {
+          animation: fadeIn 0.3s ease-out forwards;
         }
       `}</style>
 
@@ -426,24 +519,99 @@ export default function GoDevLanding() {
                 Get Started
               </Button>
 
-              <Sheet>
+              <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
                 <SheetTrigger asChild className="md:hidden">
                   <Button variant="ghost" size="icon" className="rounded-full">
                     <Menu className="h-5 w-5" />
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className={isDark ? 'bg-black border-white/10' : 'bg-white'}>
-                  <SheetTitle className="text-xl font-bold mb-4">Menu</SheetTitle>
-                  <div className="flex flex-col space-y-4 mt-4">
-                    {navItems.map((item) => (
+                <SheetContent 
+                  side="right" 
+                  className={`w-[300px] sm:w-[400px] ${
+                    isDark 
+                      ? 'bg-black/95 backdrop-blur-xl border-white/10 text-white' 
+                      : 'bg-white/95 backdrop-blur-xl border-gray-200 text-black'
+                  } slide-in`}
+                >
+                  <SheetTitle className={`text-2xl font-bold mb-8 ${isDark ? 'text-white' : 'text-black'}`}>
+                    Menu
+                  </SheetTitle>
+                  
+                  <div className="flex flex-col space-y-2">
+                    {navItems.map((item, index) => (
                       <a
                         key={item.label}
                         href={item.href}
-                        className="text-lg font-medium hover:text-gray-400 transition-colors"
+                        onClick={() => setIsMenuOpen(false)}
+                        className={`menu-item text-lg font-medium py-3 px-4 rounded-lg transition-all ${
+                          isDark 
+                            ? 'text-white hover:bg-white/10' 
+                            : 'text-black hover:bg-black/5'
+                        }`}
+                        style={{
+                          animationDelay: `${index * 0.05}s`,
+                          animation: 'fadeIn 0.3s ease-out forwards',
+                          opacity: 0
+                        }}
                       >
                         {item.label}
                       </a>
                     ))}
+                  </div>
+
+                  <div className="absolute bottom-8 left-0 right-0 px-6 space-y-3 fade-in">
+                    <Button 
+                      className={`cta-button w-full rounded-full py-6 text-base font-semibold ${
+                        isDark 
+                          ? 'bg-white text-black hover:bg-gray-100' 
+                          : 'bg-black text-white hover:bg-gray-900'
+                      }`}
+                      onClick={() => {
+                        window.location.href = '/#contact'
+                        setIsMenuOpen(false)
+                      }}
+                    >
+                      Start a Project
+                      <ChevronRight className="ml-2 h-5 w-5" />
+                    </Button>
+
+                    <Button 
+                      variant="outline"
+                      className={`cta-button w-full rounded-full py-6 text-base font-semibold ${
+                        isDark 
+                          ? 'border-white/20 text-white hover:bg-white/10' 
+                          : 'border-black/20 text-black hover:bg-black/5'
+                      }`}
+                      onClick={() => {
+                        window.location.href = '/careers'
+                        setIsMenuOpen(false)
+                      }}
+                    >
+                      Join Our Team
+                    </Button>
+
+                    <div className={`flex items-center justify-center pt-4 ${
+                      isDark ? 'text-gray-400' : 'text-gray-600'
+                    }`}>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setIsDark(!isDark)}
+                        className="rounded-full"
+                      >
+                        {isDark ? (
+                          <>
+                            <Sun className="h-4 w-4 mr-2" />
+                            Light Mode
+                          </>
+                        ) : (
+                          <>
+                            <Moon className="h-4 w-4 mr-2" />
+                            Dark Mode
+                          </>
+                        )}
+                      </Button>
+                    </div>
                   </div>
                 </SheetContent>
               </Sheet>
