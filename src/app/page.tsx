@@ -1,23 +1,11 @@
 'use client'
 
-<<<<<<< HEAD
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
-=======
-import { useState, useEffect, useRef } from 'react'
-import { Button } from '@/components/ui/button'
-//import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Badge } from '@/components/ui/badge'
-//import { Separator } from '@/components/ui/separator'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-//import { Label } from '@/components/ui/label'
->>>>>>> 258b03dc4e39fd3cfca316ed53e2776672326b75
 import { 
   Code2, 
   Smartphone, 
@@ -62,7 +50,6 @@ export default function GoDevLanding() {
     satisfaction: 0,
     countries: 0
   })
-<<<<<<< HEAD
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [messages, setMessages] = useState([
     { text: "Hi! How can we help you today?", sender: "agent" }
@@ -74,38 +61,15 @@ export default function GoDevLanding() {
       setMessages([...messages, { text: inputValue, sender: "user" }])
       setInputValue("")
       
-=======
-   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { text: "Hi! How can we help you today?", sender: "agent" }
-  ]);
-  const [inputValue, setInputValue] = useState("");
-
-  const handleSendMessage = () => {
-    if (inputValue.trim()) {
-      setMessages([...messages, { text: inputValue, sender: "user" }]);
-      setInputValue("");
-      
-      // Simulate agent response
->>>>>>> 258b03dc4e39fd3cfca316ed53e2776672326b75
       setTimeout(() => {
         setMessages(prev => [...prev, { 
           text: "Thanks for your message! Our team will respond shortly.", 
           sender: "agent" 
-<<<<<<< HEAD
         }])
       }, 1000)
     }
   }
 
-=======
-        }]);
-      }, 1000);
-    }
-  }
-
-  // Handle scroll effect for navbar
->>>>>>> 258b03dc4e39fd3cfca316ed53e2776672326b75
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
@@ -114,10 +78,6 @@ export default function GoDevLanding() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-<<<<<<< HEAD
-=======
-  // Animate metrics
->>>>>>> 258b03dc4e39fd3cfca316ed53e2776672326b75
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -424,10 +384,6 @@ export default function GoDevLanding() {
         } ${isScrolled ? 'py-2 px-6 shadow-2xl' : 'py-3 px-8 shadow-xl'}`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-<<<<<<< HEAD
-=======
-              <div className={`w-8 h-8 rounded-full ${isDark ? 'bg-white' : 'bg-black'}`} />
->>>>>>> 258b03dc4e39fd3cfca316ed53e2776672326b75
               <span className="font-bold text-xl">GoDev</span>
             </div>
 
@@ -476,12 +432,8 @@ export default function GoDevLanding() {
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="right" className={isDark ? 'bg-black border-white/10' : 'bg-white'}>
-<<<<<<< HEAD
                   <SheetTitle className="text-xl font-bold mb-4">Menu</SheetTitle>
                   <div className="flex flex-col space-y-4 mt-4">
-=======
-                  <div className="flex flex-col space-y-4 mt-8">
->>>>>>> 258b03dc4e39fd3cfca316ed53e2776672326b75
                     {navItems.map((item) => (
                       <a
                         key={item.label}
@@ -501,10 +453,6 @@ export default function GoDevLanding() {
 
       {/* Hero Section with 3D Background */}
       <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-<<<<<<< HEAD
-=======
-        {/* 3D Background */}
->>>>>>> 258b03dc4e39fd3cfca316ed53e2776672326b75
         <div className="absolute inset-0">
           <div className={`absolute inset-0 ${isDark ? 'bg-black' : 'bg-gray-50'}`} />
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl float-3d" />
