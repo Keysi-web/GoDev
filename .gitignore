@@ -45,6 +45,7 @@ dev.log
 test
 prompt
 
+<<<<<<< HEAD
 server.log
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
@@ -82,3 +83,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+=======
+server.log
+>>>>>>> 258b03dc4e39fd3cfca316ed53e2776672326b75
