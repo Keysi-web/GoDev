@@ -1,8 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
+/* stylelint-disable-next-line */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -114,10 +113,13 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--color-border);
+    outline-color: color-mix(in srgb, var(--color-ring) 50%, transparent);
   }
+
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
   }
 }
 
@@ -125,32 +127,60 @@
   .animation-delay-2000 {
     animation-delay: 2s;
   }
-  
+
   .animation-delay-4000 {
     animation-delay: 4s;
   }
-  
+
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
-  
+
   .animate-slide-up {
     animation: slideUp 0.5s ease-out;
   }
-  
+
   .animate-fade-in {
     animation: fadeIn 0.8s ease-out;
   }
-  
+
   .animate-scroll-logos {
     animation: scrollLogos 20s linear infinite;
+  }
+
+  /* 3D Button Effects */
+  .btn-3d {
+    transform: translateZ(0);
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.1), 0 6px 0 0 rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-3d:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.15), 0 8px 0 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-3d:active {
+    transform: translateY(2px) scale(0.98);
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 3px 0 0 rgba(0, 0, 0, 0.15);
+  }
+
+  .dark .btn-3d {
+    box-shadow: 0 4px 14px 0 rgba(255, 255, 255, 0.05), 0 6px 0 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .dark .btn-3d:hover {
+    box-shadow: 0 6px 20px 0 rgba(255, 255, 255, 0.08), 0 8px 0 0 rgba(255, 255, 255, 0.12);
   }
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-20px);
   }
@@ -161,6 +191,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -171,6 +202,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -180,6 +212,7 @@
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }

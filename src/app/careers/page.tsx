@@ -1,12 +1,20 @@
 'use client'
 
 import React, { useState } from 'react'
+import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { CheckCircle, ArrowLeft } from 'lucide-react'
+import {
+  AnimatedDiv,
+  StaggerContainer,
+  StaggerItem,
+  PageTransition,
+  HoverCard
+} from '@/components/ui/animations'
 
 const jobPositions = [
   {
@@ -156,9 +164,9 @@ export default function CareersPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
       <div className="container mx-auto px-4 py-8">
-        <Button 
-          variant="ghost" 
-          size="sm" 
+        <Button
+          variant="ghost"
+          size="sm"
           onClick={() => selectedPosition ? setSelectedPosition(null) : window.history.back()}
           className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 mb-8"
         >
@@ -175,7 +183,7 @@ export default function CareersPage() {
 
             <div className="space-y-3">
               {jobPositions.map((position) => (
-                <div 
+                <div
                   key={position.title}
                   className="group border border-gray-200 dark:border-gray-800 rounded-lg p-6 hover:border-gray-900 dark:hover:border-gray-100 transition-all duration-200"
                 >

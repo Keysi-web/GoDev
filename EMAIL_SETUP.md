@@ -1,79 +1,122 @@
-# Contact Form Setup Guide
+# GoDev Careers Email & Database Setup Guide
 
-## Current Status
-The contact form is currently in **development mode** and will log submissions to the console. To receive actual emails, you need to configure one of the free email services below.
+## Overview
+The careers page uses **Supabase** for storing applications and **Mailtrap** for email notifications.
 
-## Free Email Service Options
+---
 
-### Option 1: Web3Forms (Recommended - Free)
-1. Go to [web3forms.com](https://web3forms.com/)
+## 1. Supabase Setup (Database & File Storage)
+
+### Create Account & Project
+1. Go to [supabase.com](https://supabase.com/)
 2. Sign up for a free account
-3. Get your Access Key
-4. Replace `YOUR_WEB3FORMS_ACCESS_KEY` in `/src/app/api/contact/route.ts`
-5. Update `your-business-email@example.com` to your actual email
+3. Create a new project
 
-**Benefits:**
-- Free tier available
-- No SMTP setup required
-- Works immediately
-- Spam protection included
+### Get API Keys
+1. Go to **Settings → API**
+2. Copy your **Project URL** and **anon public** key
 
-### Option 2: Formspree (Free Tier)
-1. Go to [formspree.io](https://formspree.io/)
-2. Create a new form
-3. Get your Form ID
-4. Replace `YOUR_FORM_ID` in the code
-5. Update your business email
+### Create Database Table
+Go to **SQL Editor** and run:
 
-**Benefits:**
-- 50 submissions/month free
-- Email notifications
-- Dashboard to track submissions
-- Easy setup
+```sql
+-- Career applications table
+CREATE TABLE career_applications (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  position TEXT NOT NULL,
+  applicant_type TEXT NOT NULL,
+  experience TEXT NOT NULL,
+  cover_letter TEXT NOT NULL,
+  cv_file_url TEXT,
+  cv_file_name TEXT,
+  status TEXT DEFAULT 'pending',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
 
-### Option 3: Resend (Free Tier)
-1. Go to [resend.com](https://resend.com/)
-2. Sign up for free account
-3. Get your API key
-4. Replace the email sending function with Resend API
+-- Enable Row Level Security
+ALTER TABLE career_applications ENABLE ROW LEVEL SECURITY;
 
-**Benefits:**
-- 3,000 emails/month free
-- Professional email delivery
-- Templates support
-- Analytics
+-- Allow public inserts (for application form)
+CREATE POLICY "Allow public inserts" ON career_applications
+  FOR INSERT TO anon
+  WITH CHECK (true);
 
-### Option 4: Netlify Forms (If hosted on Netlify)
-If you deploy to Netlify, forms work automatically:
-1. Deploy to Netlify
-2. Forms are automatically handled
-3. Receive emails at your netlify email
+-- Allow authenticated reads (for admin dashboard)
+CREATE POLICY "Allow authenticated reads" ON career_applications
+  FOR SELECT TO authenticated
+  USING (true);
+```
 
-## Quick Setup Steps
+### Create Storage Bucket
+1. Go to **Storage** in Supabase dashboard
+2. Click **New Bucket**
+3. Name it `career-cvs`
+4. Enable **Public bucket** for easy CV access
 
-1. **Choose a service** from the options above
-2. **Get your API key/ID** from the service
-3. **Update the code** in `/src/app/api/contact/route.ts`
-4. **Test the form** on your website
-5. **Check your email** for submissions
+---
 
-## Development Mode
-Currently, the form will:
-- ✅ Validate input fields
-- ✅ Log submissions to console
-- ✅ Show success message to users
-- ❌ Send actual emails (needs configuration)
+## 2. Mailtrap Setup (Email Notifications)
 
-## Security Features
-- Input validation
-- Email format checking
-- Message length requirements
-- Error handling
-- Rate limiting (recommended for production)
+### Free Tier
+- 1,000 emails/month
+- 100 emails/day limit
+- Perfect for career applications
 
-## Next Steps
-1. Choose your preferred email service
-2. Update the configuration
-3. Test the contact form
-4. Deploy your website
-5. Monitor for submissions
+### Setup Steps
+1. Go to [mailtrap.io](https://mailtrap.io/)
+2. Sign up for free
+3. Go to **Sending Domains** → Add your domain (or use sandbox for testing)
+4. Go to **API Tokens** → Create new token
+5. Copy the API token
+
+---
+
+## 3. Environment Variables
+
+Create a `.env.local` file in your project root:
+
+```env
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+
+# Mailtrap
+MAILTRAP_API_TOKEN=your-api-token
+MAILTRAP_SENDER_EMAIL=careers@yourdomain.com
+HR_NOTIFICATION_EMAIL=hr@yourdomain.com
+```
+
+---
+
+## 4. How It Works
+
+When a candidate submits an application:
+1. ✅ CV file uploads to Supabase Storage
+2. ✅ Application data saves to `career_applications` table
+3. ✅ HR receives email notification via Mailtrap
+4. ✅ Candidate sees success message
+
+---
+
+## 5. Testing
+
+1. Start dev server: `npm run dev`
+2. Go to `http://localhost:3000/careers`
+3. Submit a test application
+4. Check:
+   - Supabase dashboard → Table Editor → `career_applications`
+   - Supabase Storage → `career-cvs` bucket
+   - Mailtrap inbox for notification email
+
+---
+
+## Production Notes
+
+- For production emails, verify your domain in Mailtrap
+- Consider adding email confirmation to applicants
+- Add rate limiting to prevent spam submissions
