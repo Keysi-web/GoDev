@@ -671,7 +671,7 @@ export default function GoDevLanding() {
               <div className={`rounded-3xl overflow-hidden max-w-md w-full ${isDark ? 'bg-zinc-900/80 border border-white/10' : 'bg-gray-100 border border-gray-200'} shadow-2xl`}>
                 <div className={`aspect-[3/4] relative ${isDark ? 'bg-gradient-to-b from-zinc-800 to-zinc-900' : 'bg-gradient-to-b from-gray-200 to-gray-300'}`}>
                   <Image
-                    src="/khyle-carang.png"
+                    src="/khyle-carang.jpg"
                     alt="Khyle Carang"
                     fill
                     className="object-cover object-top"

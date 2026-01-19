@@ -240,7 +240,7 @@ export default function AboutPage() {
                                     : 'bg-gradient-to-b from-gray-200 to-gray-300'
                                     }`}>
                                     <Image
-                                        src="/khyle-carang.png"
+                                        src="/khyle-carang.jpg"
                                         alt="Khyle Carang"
                                         fill
                                         className="object-cover object-top"
